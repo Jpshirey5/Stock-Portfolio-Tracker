@@ -3,4 +3,3 @@ CREATE DATABASE stocks_db;
 
 USE stocks_db;
 
--- 
