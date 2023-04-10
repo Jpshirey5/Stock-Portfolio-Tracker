@@ -4,6 +4,8 @@ const routes = require('./controllers');
 const mysql = require('mysql2')
 const exphbs = require('express-handlebars');
 const path = require('path')
+const hbs = exphbs.create({});
+
 
 const sequelize = require('./config/connections');
 
@@ -32,15 +34,18 @@ db.connect((err) => {
     }
 });
 
-app.get('/', (req, res) =>
-    res.sendFile(path.join(__dirname, '/views/layouts/main.handlebars'))
-);
-
-app.engine('handlebars', exphbs.engine);
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('./controllers/homeRoutes'));
+
+
+// app.get('/', (req, res) =>
+// res.render(path.join(__dirname, '/views/main.handlebars'))
+// );
+
+
 
 sequelize.sync().then(() => {
     app.listen(PORT, () => 
