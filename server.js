@@ -4,6 +4,7 @@ const routes = require('./controllers');
 const mysql = require('mysql2')
 const exphbs = require('express-handlebars');
 const path = require('path')
+const jwt = require('jsonwebtoken');
 const hbs = exphbs.create({});
 
 
@@ -48,6 +49,36 @@ app.use(require('./controllers/homeRoutes'));
 
 
 sequelize.sync().then(() => {
-    app.listen(PORT, () => 
-    console.log(`App listening at http://localhost:${PORT}`));
+    app.listen(PORT, () =>
+        console.log(`App listening at http://localhost:${PORT}`));
+});
+
+
+// Authentication Cookies Section below
+// Variables
+const jwt = require('jsonwebtoken');
+const secretKey = 'password';
+// Creating the Token
+const token = jwt.sign({ userId: 'name', role: 'admin' }, secretKey, { expiresIn: '1h' });
+// Setup
+app.get('/setcookie', (req, res) => {
+    res.cookie('authToken', token, { maxAge: 3600000, httpOnly: true });
+    res.send('Auth has been set');
+});
+// Access through subsequent requests
+app.get('/dashboard', (req, res) => {
+    const authToken = req.cookies.authToken;
+    try {
+        const decodedToken = jwt.verify(authToken, secretKey);
+        const userId = decodedToken.userId;
+        const role = decodedToken.role;
+        // Check if the user has the necessary role to access
+        if (role === 'admin') {
+            res.send('Welcome to the dashboard!');
+        } else {
+            res.status(401).send('Unauthorized');
+        }
+    } catch (err) {
+        res.status(401).send('Unauthorized');
+    }
 });
