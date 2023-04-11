@@ -38,7 +38,7 @@ db.connect((err) => {
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(require('./controllers/homeRoutes'));
 
 
@@ -48,15 +48,10 @@ app.use(require('./controllers/homeRoutes'));
 
 
 
-sequelize.sync().then(() => {
-    app.listen(PORT, () =>
-        console.log(`App listening at http://localhost:${PORT}`));
-});
-
 
 // Authentication Cookies Section below
 // Variables
-const jwt = require('jsonwebtoken');
+
 const secretKey = 'password';
 // Creating the Token
 const token = jwt.sign({ userId: 'name', role: 'admin' }, secretKey, { expiresIn: '1h' });
@@ -81,4 +76,10 @@ app.get('/dashboard', (req, res) => {
     } catch (err) {
         res.status(401).send('Unauthorized');
     }
+});
+
+
+sequelize.sync().then(() => {
+    app.listen(PORT, () =>
+        console.log(`App listening at http://localhost:${PORT}`));
 });
