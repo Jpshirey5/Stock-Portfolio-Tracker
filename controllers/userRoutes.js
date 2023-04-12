@@ -24,7 +24,13 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// console.log(_this.get('session')); // this correctly gets the session
+//             _this.transitionTo('orders');
+
+
+
 module.exports = router;
+
 // // GET all users
 // router.get('/', async (req, res) => {
 //   try {

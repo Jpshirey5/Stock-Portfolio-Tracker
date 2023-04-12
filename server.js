@@ -47,6 +47,18 @@ app.use(require('./controllers/homeRoutes'));
 // );
 
 
+// Define a route for registering
+app.get('/login', (req, res) => {
+    // Render the register view
+    res.render('add');
+  });
+
+// Define a route for registering
+app.get('/register', (req, res) => {
+    // Render the register view
+    res.render('register');
+  });
+  
 
 
 // Authentication Cookies Section below
