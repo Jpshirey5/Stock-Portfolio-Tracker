@@ -41,12 +41,6 @@ app.set('view engine', 'handlebars');
 
 app.use(require('./controllers/homeRoutes'));
 
-
-// app.get('/', (req, res) =>
-// res.render(path.join(__dirname, '/views/main.handlebars'))
-// );
-
-
 // Define a route for registering
 app.get('/login', (req, res) => {
     // Render the register view
@@ -59,8 +53,6 @@ app.get('/register', (req, res) => {
     res.render('register');
   });
   
-
-
 // Authentication Cookies Section below
 // Variables
 
