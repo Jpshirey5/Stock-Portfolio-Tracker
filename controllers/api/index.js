@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const stockRoutes = require('./stock-routes.js');
+const userRoutes = require('./userRoutes');
 
-router.use('/transaction', stockRoutes);
+router.use('/users', userRoutes);
 
 module.exports = router;
