@@ -32,14 +32,14 @@ const loginFormHandler = async (event) => {
     const password = document.querySelector('#password').value.trim();
   
     if (email && password) {
-      const response = await fetch('./add.handlebars', {
+      const response = await fetch('/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
       });
   
       if (response.ok) {
-        document.location.replace('/');
+        document.location.replace('/login');
       } else {
         alert('Failed to log in.');
       }

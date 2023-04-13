@@ -18,6 +18,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 
+// Set up sessions
+// const sess = {
+//     secret: 'Super secret secret',
+//     resave: false,
+//     saveUninitialized: false,
+//   };
+  
+//   app.use(session(sess));
+
 // set up the MySQL database connection
 // const db = mysql.createConnection({
 //     host: "localhost",
@@ -42,10 +51,10 @@ app.set('view engine', 'handlebars');
 app.use(require('./controllers/homeRoutes'));
 
 // Define a route for registering
-app.get('/login', (req, res) => {
-    // Render the register view
-    res.render('add');
-  });
+// app.get('/login', (req, res) => {
+//     // Render the register view
+//     res.render('add');
+//   });
 
 // Define a route for registering
 app.get('/register', (req, res) => {
