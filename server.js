@@ -12,28 +12,28 @@ const sequelize = require('./config/connections');
 
 
 const app = express();
-const PORT = process.env.PORT || 3306;
-app.use(express.static('public'));
+const PORT = process.env.PORT || 3001;
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 
 // set up the MySQL database connection
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "stocks_db",
-});
+// const db = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "stocks_db",
+// });
 
-// test the database connection
-db.connect((err) => {
-    if (err) {
-        console.error("Error connecting to database:", err);
-    } else {
-        console.log("Connected to database!");
-    }
-});
+// // test the database connection
+// db.connect((err) => {
+//     if (err) {
+//         console.error("Error connecting to database:", err);
+//     } else {
+//         console.log("Connected to database!");
+//     }
+// });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -56,31 +56,31 @@ app.get('/register', (req, res) => {
 // Authentication Cookies Section below
 // Variables
 
-const secretKey = 'password';
-// Creating the Token
-const token = jwt.sign({ userId: 'name', role: 'admin' }, secretKey, { expiresIn: '1h' });
-// Setup
-app.get('/setcookie', (req, res) => {
-    res.cookie('authToken', token, { maxAge: 3600000, httpOnly: true });
-    res.send('Auth has been set');
-});
-// Access through subsequent requests
-app.get('/dashboard', (req, res) => {
-    const authToken = req.cookies.authToken;
-    try {
-        const decodedToken = jwt.verify(authToken, secretKey);
-        const userId = decodedToken.userId;
-        const role = decodedToken.role;
-        // Check if the user has the necessary role to access
-        if (role === 'admin') {
-            res.send('Welcome to the dashboard!');
-        } else {
-            res.status(401).send('Unauthorized');
-        }
-    } catch (err) {
-        res.status(401).send('Unauthorized');
-    }
-});
+// const secretKey = 'password';
+// // Creating the Token
+// const token = jwt.sign({ userId: 'name', role: 'admin' }, secretKey, { expiresIn: '1h' });
+// // Setup
+// app.get('/setcookie', (req, res) => {
+//     res.cookie('authToken', token, { maxAge: 3600000, httpOnly: true });
+//     res.send('Auth has been set');
+// });
+// // Access through subsequent requests
+// app.get('/dashboard', (req, res) => {
+//     const authToken = req.cookies.authToken;
+//     try {
+//         const decodedToken = jwt.verify(authToken, secretKey);
+//         const userId = decodedToken.userId;
+//         const role = decodedToken.role;
+//         // Check if the user has the necessary role to access
+//         if (role === 'admin') {
+//             res.send('Welcome to the dashboard!');
+//         } else {
+//             res.status(401).send('Unauthorized');
+//         }
+//     } catch (err) {
+//         res.status(401).send('Unauthorized');
+//     }
+// });
 
 
 sequelize.sync().then(() => {
